@@ -1,0 +1,49 @@
+#           __        _
+#  ________/ /  ___ _(_)__  ___
+# / __/ __/ _ \/ _ `/ / _ \/ -_)
+# \__/\__/_//_/\_,_/_/_//_/\__/
+# 
+# Copyright (C) Clément Chaine
+# This file is part of wrlparser <https://github.com/cchaine/wrlparser>
+# 
+# wrlparser is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# wrlparser is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with wrlparser.  If not, see <http://www.gnu.org/licenses/>.
+
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = [
+  "setuptools>=61.0", 
+]
+
+[project]
+name = "wrlparser"
+version = "0.0.1"
+authors = [
+  { name="Clément Chaine", email="cc.chaine@free.fr" },
+]
+description = "A VRML (.wrl) to XML parser library"
+readme = "README.md"
+license = { file="LICENSE" }
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: OS Independent"
+]
+dependencies = [
+  "ply >= 3.11"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/cchaine/wrlparser"
+"Bug Tracker" = "https://github.com/cchaine/wrlparser/issues"
