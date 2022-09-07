@@ -20,9 +20,17 @@
 # along with wrlparser.  If not, see <http://www.gnu.org/licenses/>.
 
 from wrlparser import parse
+import sys
 
-f = open("model.wrl")
-l = "".join(f.readlines())
-f.close()
+files = sys.argv[1:]
 
-parse(l, 0)
+for name in files:
+    try:
+        f = open(name)
+        l = "".join(f.readlines())
+        f.close()
+        worked = parse(l, 0)
+        print("Success with {}".format(name))
+    except:
+        print("Couln't find {}".format(name))
+        continue
