@@ -1,6 +1,6 @@
 # WIP: wrl-parser
 
-Python library to parse VRML files (.wrl) using an LALR parser using a Context-Free Grammar.
+Python library to parse VRML files (.wrl) using an LALR parser with a Context-Free Grammar.
 
 # Context-Free Grammar
 
