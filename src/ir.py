@@ -19,22 +19,28 @@
 # You should have received a copy of the GNU General Public License
 # along with wrlparser.  If not, see <http://www.gnu.org/licenses/>.
 
-from wrlparser import parse
-import sys
+class Node:
+    def __init__(self, name, body):
+        self.name = name
+        self.fields = []
+        self.events = []
 
-files = sys.argv[1:]
+    def add_field(self, field):
+        self.fields += [field]
 
-try:
-    for name in files:
-        try:
-            f = open(name)
-        except:
-            print("Couln't find {}".format(name))
-            continue
-        finally:
-            l = "".join(f.readlines())
-            f.close()
-            worked = parse(l, 0)
-            print("Success with {}".format(name))
-except KeyboardInterrupt:
-    sys.exit(1)
+    def add_event(self, event):
+        self.events += [event]
+
+#class GroupingNode(Node):
+
+#class ScriptNode(Node):
+#    def __init__(self):
+#        self.name = "Script"
+
+class Field:
+    def __init__(self, id):
+        self.id = id
+
+class Event:
+    def __init__(self):
+        print("event")

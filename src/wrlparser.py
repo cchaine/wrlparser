@@ -23,6 +23,7 @@ import ply.lex as lex
 import ply.yacc as yacc
 from toks import tokens
 import toks
+from ir import *
 
 import inspect, os, logging
 
@@ -101,9 +102,17 @@ def p_URLList(p):
 def p_node(p):
     '''node : ID OCB nodeBody CCB
             | SCRIPT OCB scriptBody CCB'''
+    if(p[1] != "SCRIPT"):
+        p[0] = Node(p[1], p[3])
+
 def p_nodeBody(p):
     '''nodeBody : nodeBodyElement nodeBody 
                 | empty'''
+    # This is a recursive processing 
+    if(p[1] == None):
+        p[0] = []
+    else:
+        p[0] = [p[1]] + p[2]
 def p_scriptBody(p):
     '''scriptBody : scriptBodyElement scriptBody 
                   | empty'''
@@ -118,6 +127,10 @@ def p_nodeBodyElement(p):
                        | ID IS ID
                        | routeStatement
                        | protoStatement'''
+    # If anything other than route and proto
+    if(len(p[1:]) > 1):
+        p[0] = Field(p[1])
+
 # FIELDS
 
 
