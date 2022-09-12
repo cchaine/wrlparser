@@ -28,24 +28,39 @@ from ir import *
 import inspect, os, logging
 
 # GENERAL
-
 def p_vrmlscene(p):
     '''vrmlscene : statements'''
+    p[0] = Scene(p[1])
 
 def p_statements(p):
     '''statements : statement statements
                     | empty'''
+    if(p[1] == None):
+        p[0] = []
+    else:
+        p[0] = [p[1]] + p[2]
 
 def p_statement(p):
     '''statement  : nodeStatement
                   | protoStatement
                   | routeStatement'''
+    p[0] = p[1]
 
 def p_nodeStatement(p):
     '''nodeStatement : node
                      | DEF ID node
                      | USE ID
                      | NULL'''
+    if(len(p[1:]) == 1):
+        if(p[1] != "NULL"):
+            p[0] = p[1]
+        else:
+            p[0] = None
+    else:
+        if(p[1] == 'DEF'):
+            p[0] = DefinedNode(p[2], p[3])
+        elif(p[1] == 'USE'):
+            p[0] = UsedNode(p[2])
 
 def p_rootNodeStatement(p):
     '''rootNodeStatement : node 
@@ -129,10 +144,10 @@ def p_nodeBodyElement(p):
                        | protoStatement'''
     # If anything other than route and proto
     if(len(p[1:]) > 1):
-        p[0] = Field(p[1])
+        if(p[2] != 'IS'):
+            p[0] = Field(p[1], p[2])
 
 # FIELDS
-
 
 def p_fieldType(p):
     '''fieldType : MFCOLOR
@@ -162,39 +177,75 @@ def p_fieldValue(p):
                   | mfint32Value
                   | mfnodeValue
                   | mfstringValue'''
+    if(len(p[1:]) == 2):
+        p[0] = []
+    else:
+        p[0] = [p[1]]
 # Bool values
 def p_sfboolValue(p):
     '''sfboolValue : TRUE
                    | FALSE'''
+    p[0] = True if p[1] == "TRUE" else False
 # Float values
 def p_sffloatValues(p):
     '''sffloatValues : FLOAT sffloatValues
                      | empty'''
+    if p[1] == None:
+        p[0] = []
+    else:
+        p[0] = [float(p[1])] + p[2]
 def p_mffloatValue(p):
     '''mffloatValue : sffloatValues
                     | OSB sffloatValues CSB'''
+    if len(p[1:]) > 1:
+        p[0] = p[2]
+    else:
+        p[0] = p[1]
 # Int Values
 def p_sfint32Values(p):
     '''sfint32Values : INT32 sfint32Values
                      | empty'''
+    if p[1] == None:
+        p[0] = []
+    else:
+        p[0] = [int(p[1])] + p[2]
 def p_mfint32Value(p):
     '''mfint32Value : sfint32Values
                     | OSB sfint32Values CSB'''
+    if len(p[1:]) > 1:
+        p[0] = p[2]
+    else:
+        p[0] = p[1]
 # Node values
-def p_mfnodeValue(p):
-    '''mfnodeValue : nodeStatement
-                   | OSB nodeStatements CSB'''
 def p_nodeStatements(p):
     '''nodeStatements : nodeStatement nodeStatements
                       | empty'''
+    if p[1] == None:
+        p[0] = []
+    else:
+        p[0] = [p[1]] + p[2]
+def p_mfnodeValue(p):
+    '''mfnodeValue : nodeStatement
+                   | OSB nodeStatements CSB'''
+    if len(p[1:]) > 1:
+        p[0] = p[2]
+    else:
+        p[0] = p[1]
 # String values
 def p_sfstringValues(p):
     '''sfstringValues : STRING sfstringValues
                       | empty'''
+    if p[1] == None:
+        p[0] = []
+    else:
+        p[0] = [p[1]] + p[2]
 def p_mfstringValue(p):
     '''mfstringValue : sfstringValues
                      | OSB sfstringValues CSB'''
-
+    if len(p[1:]) > 1:
+        p[0] = p[2]
+    else:
+        p[0] = p[1]
 def p_empty(p):
     '''empty : '''
     pass
@@ -207,7 +258,7 @@ def p_error(p):
 
     print(f"Syntax error: Unexpected {token}")
 
-def parse(data, backend):
+def parse(data):
     # Get the path to the calling function
     abs_path = os.path.abspath((inspect.stack()[1])[1])
     parsedir = os.path.dirname(abs_path)
@@ -219,4 +270,5 @@ def parse(data, backend):
     parser = yacc.yacc(outputdir=parsedir)
 
     # Parse the file
-    parser.parse(data,tracking=True, debug=False)
+    scene = parser.parse(data,tracking=True, debug=False)
+    return scene 

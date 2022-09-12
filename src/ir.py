@@ -19,28 +19,68 @@
 # You should have received a copy of the GNU General Public License
 # along with wrlparser.  If not, see <http://www.gnu.org/licenses/>.
 
+from log import iprint
+import inspect
+
+class Scene:
+    def __init__(self, content):
+        self.content = content
+
+    def print(self):
+        for c in self.content:
+            c.print(0)
+
 class Node:
     def __init__(self, name, body):
         self.name = name
         self.fields = []
         self.events = []
 
-    def add_field(self, field):
-        self.fields += [field]
+        for el in body:
+            if type(el) == Field:
+                self.fields += [el]
 
-    def add_event(self, event):
-        self.events += [event]
+    def print(self, level):
+        iprint(level, "Node: {}".format(self.name))
+        iprint(level, "Fields:")
+        for f in self.fields:
+            f.print(level + 1)
 
-#class GroupingNode(Node):
+class DefinedNode(Node):
+    def __init__(self, name, node):
+        self.name = name
+        self.node = node
 
-#class ScriptNode(Node):
-#    def __init__(self):
-#        self.name = "Script"
+    def print(self, level):
+        iprint(level, "DEF: {}".format(self.name))
+        self.node.print(level + 1)
+
+class UsedNode(Node):
+    def __init__(self, name):
+        self.name = name
+
+    def print(self, level):
+        iprint(level, "USE: {}".format(self.name))
 
 class Field:
-    def __init__(self, id):
+    def __init__(self, id, content):
         self.id = id
+        self.content = content
 
-class Event:
-    def __init__(self):
-        print("event")
+    def print(self, level):
+        iprint(level, "Field: {}".format(self.id))
+        for c in self.content:
+            if type(c) == list:
+                literals = False
+                for ci in c:
+                    if type(ci) in [Node, DefinedNode, UsedNode]:
+                        ci.print(level + 1)
+                    else:
+                        literals = True
+                if literals:
+                    iprint(level + 1, "literals...")
+            if type(c) in [Node, DefinedNode, UsedNode]:
+                c.print(level + 1)
+            else:
+                iprint(level + 1, "literals...")
+

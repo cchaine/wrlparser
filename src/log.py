@@ -19,13 +19,6 @@
 # You should have received a copy of the GNU General Public License
 # along with wrlparser.  If not, see <http://www.gnu.org/licenses/>.
 
-from wrlparser import parse
-import sys
-
-file = sys.argv[1]
-with open(file) as f:
-    l = "".join(f.readlines())
-    f.close()
-
-scene = parse(l)
-scene.print()
+def iprint(indent_level, s):
+    indent = "  "*indent_level
+    print("{}{}".format(indent, s))
