@@ -26,4 +26,12 @@ sfvec3fValue :                    | empty
 
 # Intermediate Representation (IR)
 
+The Intermediate Representation is defined with a couple of classes :
+- `Node` which has a number of fields.
+- `DefinedNode` which has a name and a `Node`.
+- `UsedNode` which references a node by a name attribute.
+- `Field` which defines a particular field in a `Node`.
+
+Finally, instances of these classes are grouped within a `Scene` class which contains the representation of the file.
+
 # Tests
