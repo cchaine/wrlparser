@@ -31,7 +31,7 @@ version = "0.0.1"
 authors = [
   { name="Clément Chaine", email="cc.chaine@free.fr" },
 ]
-description = "A VRML (.wrl) to XML parser library"
+description = "A VRML (.wrl) parser library"
 readme = "README.md"
 license = { file="LICENSE" }
 requires-python = ">=3.7"
@@ -41,7 +41,7 @@ classifiers = [
     "Operating System :: OS Independent"
 ]
 dependencies = [
-  "ply >= 3.11"
+  "rich"
 ]
 
 [project.urls]

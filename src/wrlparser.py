@@ -30,7 +30,7 @@ import inspect, os, logging
 # GENERAL
 def p_vrmlscene(p):
     '''vrmlscene : statements'''
-    p[0] = Scene(p[1])
+    p[0] = p[1]
 
 def p_statements(p):
     '''statements : statement statements
@@ -58,9 +58,9 @@ def p_nodeStatement(p):
             p[0] = None
     else:
         if(p[1] == 'DEF'):
-            p[0] = DefinedNode(p[2], p[3])
+            p[0] = {"type": "defined_node", "name": p[2], "content": p[3]}
         elif(p[1] == 'USE'):
-            p[0] = UsedNode(p[2])
+            p[0] = {"type": "used_node", "name": p[2]}
 
 def p_rootNodeStatement(p):
     '''rootNodeStatement : node 
@@ -118,7 +118,7 @@ def p_node(p):
     '''node : ID OCB nodeBody CCB
             | SCRIPT OCB scriptBody CCB'''
     if(p[1] != "SCRIPT"):
-        p[0] = Node(p[1], p[3])
+        p[0] = {"type":"node", "name": p[1], "content": p[3]}
 
 def p_nodeBody(p):
     '''nodeBody : nodeBodyElement nodeBody 
@@ -145,7 +145,7 @@ def p_nodeBodyElement(p):
     # If anything other than route and proto
     if(len(p[1:]) > 1):
         if(p[2] != 'IS'):
-            p[0] = Field(p[1], p[2])
+            p[0] = {"type": "field", "name": p[1], "content": p[2]}
 
 # FIELDS
 
@@ -259,16 +259,17 @@ def p_error(p):
     print(f"Syntax error: Unexpected {token}")
 
 def parse(data):
-    # Get the path to the calling function
-    abs_path = os.path.abspath((inspect.stack()[1])[1])
-    parsedir = os.path.dirname(abs_path)
-
     # Create the lexer
-    lex.lex(module=toks)
-
+    lexer = lex.lex(module=toks)
     # Create the parser
-    parser = yacc.yacc(outputdir=parsedir)
-
+    parser = yacc.yacc()
     # Parse the file
-    scene = parser.parse(data,tracking=True, debug=False)
+    content = parser.parse(data,tracking=True, debug=False)
+    scene = Scene(content)
     return scene 
+
+def parse_file(filename):
+    with open(filename) as f:
+        content = "".join(f.readlines())
+        f.close()
+        return parse(content)
