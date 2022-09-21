@@ -28,4 +28,3 @@ with open(file) as f:
     f.close()
 
 scene = parse(l)
-scene.print()

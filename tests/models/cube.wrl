@@ -1,0 +1,108 @@
+Shape {
+  appearance Appearance { 
+    material DEF mat0 Material {
+      diffuseColor 1.0 0.0 0.0
+    }
+  }
+}
+Shape {
+  appearance Appearance {
+    material DEF mat1 Material {
+      diffuseColor 0.0 1.0 0.0
+    }
+  }
+}
+Shape {
+  appearance Appearance {
+    material DEF mat2 Material {
+      diffuseColor 0.0 0.0 1.0
+    }
+  }
+}
+Shape {
+  appearance Appearance {
+    material DEF mat3 Material {
+      diffuseColor 1.0 1.0 0.0
+    }
+  }
+}
+Shape {
+  appearance Appearance {
+    material DEF mat4 Material {
+      diffuseColor 1.0 0.0 1.0
+    }
+  }
+}
+Shape {
+  appearance Appearance {
+    material DEF mat5 Material {
+      diffuseColor 0.0 1.0 1.0
+    }
+  }
+}
+Shape {
+  appearance Appearance {
+    material USE mat0
+  }
+  geometry IndexedFaceSet {
+    coordIndex [0, 1, 2, -1, 2, 3, 0]
+    coord Coordinate {
+      point [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0]
+    }
+  }
+}
+Shape {
+  appearance Appearance {
+    material USE mat1
+  }
+  geometry IndexedFaceSet {
+    coordIndex [0, 1, 2, -1, 2, 3, 0]
+    coord Coordinate {
+      point [0.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 1.0, 1.0]
+    }
+  }
+}
+Shape {
+  appearance Appearance {
+    material USE mat5
+  }
+  geometry IndexedFaceSet {
+    coordIndex [0, 1, 2, -1, 2, 3, 0]
+    coord Coordinate {
+      point [0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 0.0, 1.0, 1.0]
+    }
+  }
+}
+Shape {
+  appearance Appearance {
+    material USE mat2
+  }
+  geometry IndexedFaceSet {
+    coordIndex [0, 1, 2, -1, 2, 3, 0]
+    coord Coordinate {
+      point [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0]
+    }
+  }
+}
+Shape {
+  appearance Appearance {
+    material USE mat3
+  }
+  geometry IndexedFaceSet {
+    coordIndex [0, 1, 2, -1, 2, 3, 0]
+    coord Coordinate {
+      point [1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 1.0]
+    }
+  }
+}
+Shape {
+  appearance Appearance {
+    material USE mat4
+  }
+  geometry IndexedFaceSet {
+    coordIndex [0, 1, 2, -1, 2, 3, 0]
+    coord Coordinate {
+      point [0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 0.0]
+    }
+  }
+}
