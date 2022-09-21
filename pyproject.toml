@@ -27,7 +27,7 @@ requires = [
 
 [project]
 name = "wrlparser"
-version = "0.0.1"
+version = "1.0"
 authors = [
   { name="Clément Chaine", email="cc.chaine@free.fr" },
 ]
